@@ -88,9 +88,6 @@ resource "aws_instance" "public_inst_1" {
   vpc_security_group_ids = [aws_security_group.dev-sg.id]
   associate_public_ip_address = "true"
   key_name = "key-pair"
-  tags = {
-    Name = "public_inst_1"
-
   user_data = <<-EOF
     #!/bin/bash
     sudo yum update -y
@@ -98,5 +95,10 @@ resource "aws_instance" "public_inst_1" {
     sudo systemctl start httpd.service
     sudo systemctl enable httpd.service
     EOF
+  tags = {
+    Name = "public_inst_1"
   }
+}
+output "web_instance_ip" {
+    value = aws_instance.public_inst_1.public_ip
 }
